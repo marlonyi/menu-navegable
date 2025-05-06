@@ -1,55 +1,39 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useTheme } from './ThemeContext';
 
 function Navbar() {
-  const location = useLocation();
+  const { modoOscuro, toggleTema } = useTheme();
 
   const styles = {
     navbar: {
       display: 'flex',
-      justifyContent: 'center',
-      gap: '20px',
-      backgroundColor: '#ffffff',
-      padding: '1rem',
-      borderBottom: '1px solid #e0e0e0',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      padding: '0.8rem 1.5rem',
+      backgroundColor: modoOscuro ? '#1e1e1e' : '#f5f5f5',
+      color: modoOscuro ? '#fff' : '#000',
+      borderBottom: `1px solid ${modoOscuro ? '#333' : '#ccc'}`,
       position: 'sticky',
       top: 0,
-      zIndex: 1000,
+      zIndex: 100,
     },
-    link: (isActive) => ({
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.5rem',
-      padding: '10px 20px',
-      borderRadius: '8px',
-      textDecoration: 'none',
-      fontWeight: isActive ? 'bold' : 'normal',
-      color: isActive ? '#ffffff' : '#333333',
-      backgroundColor: isActive ? '#4caf50' : '#f9f9f9',
-      border: '1px solid ' + (isActive ? '#4caf50' : '#ccc'),
-      transition: 'all 0.3s ease',
-    }),
+    button: {
+      padding: '0.5rem 1rem',
+      backgroundColor: modoOscuro ? '#333' : '#e0e0e0',
+      color: modoOscuro ? '#fff' : '#000',
+      border: 'none',
+      borderRadius: '6px',
+      cursor: 'pointer',
+      fontWeight: 'bold'
+    }
   };
 
-  const menuItems = [
-    { to: '/', label: 'Home', icon: '🏠' },
-    { to: '/carros', label: 'Carros', icon: '🚗' },
-    { to: '/conductores', label: 'Conductores', icon: '🧑‍✈️' },
-    { to: '/configuracion', label: 'Configuración', icon: '⚙️' },
-  ];
-
   return (
-    <nav style={styles.navbar}>
-      {menuItems.map((item) => (
-        <Link
-          key={item.to}
-          to={item.to}
-          style={styles.link(location.pathname === item.to)}
-        >
-          {item.icon} {item.label}
-        </Link>
-      ))}
-    </nav>
+    <div style={styles.navbar}>
+      <div></div>
+      <button onClick={toggleTema} style={styles.button}>
+        {modoOscuro ? '☀️ Claro' : '🌙 Oscuro'}
+      </button>
+    </div>
   );
 }
 
